@@ -1,16 +1,9 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chatting_app/configuration/firebase_configuration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-final firebaseAuthInstance = FirebaseAuth.instance;
-final firebaseStorageInstance = FirebaseStorage.instance;
-final firebaseFireStore = FirebaseFirestore.instance;
-final fcm = FirebaseMessaging.instance;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -26,32 +19,13 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    _requestNotificationPermission();
     super.initState();
   }
 
-  void _requestNotificationPermission() async {
-    NotificationSettings settings = await fcm.requestPermission();
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      String? token = await fcm.getToken();
-      // gcm-fcm token
-      _updateTokenInDb(token!);
-
-      fcm.onTokenRefresh.listen((token) {
-        _updateTokenInDb(token);
-      });
-
-      await fcm.subscribeToTopic("flutter1b");
-
-      // deeplink
-    }
-  }
-
   void _updateTokenInDb(String token) async {
-    await firebaseFireStore
+    await firebaseFirestore
         .collection("users")
-        .doc(firebaseAuthInstance.currentUser!.uid)
+        .doc(firebaseAuth.currentUser!.uid)
         .update({'fcm': token});
   }
 
@@ -66,9 +40,9 @@ class _ChatPageState extends State<ChatPage> {
 
   void _uploadImage() async {
     if (_selectedImage != null) {
-      User? loggedInUser = firebaseAuthInstance.currentUser;
+      User? loggedInUser = firebaseAuth.currentUser;
 
-      final storageRef = firebaseStorageInstance
+      final storageRef = firebaseStorage
           .ref()
           .child("images")
           .child("${loggedInUser!.uid}.jpg");
@@ -77,7 +51,7 @@ class _ChatPageState extends State<ChatPage> {
 
       final url = await storageRef.getDownloadURL();
 
-      await firebaseFireStore
+      await firebaseFirestore
           .collection("users")
           .doc(loggedInUser.uid)
           .update({'imageUrl': url});
@@ -85,9 +59,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<String> _getUserImage() async {
-    User? loggedInUser = firebaseAuthInstance.currentUser;
+    User? loggedInUser = firebaseAuth.currentUser;
     final document =
-        firebaseFireStore.collection("users").doc(loggedInUser!.uid);
+        firebaseFirestore.collection("users").doc(loggedInUser!.uid);
     final documentSnapshot = await document.get();
 
     final imageUrl = await documentSnapshot.get("imageUrl");
@@ -101,7 +75,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(title: const Text("Firebase App"), actions: [
         IconButton(
             onPressed: () {
-              firebaseAuthInstance.signOut();
+              firebaseAuth.signOut();
             },
             icon: const Icon(Icons.logout))
       ]),

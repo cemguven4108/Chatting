@@ -1,3 +1,4 @@
+import 'package:chatting_app/configuration/firebase_configuration.dart';
 import 'package:flutter/material.dart';
 
 class UsersPage extends StatefulWidget {
@@ -12,6 +13,17 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              firebaseAuth.signOut();
+            },
+            icon: const Icon(Icons.exit_to_app_outlined),
+          ),
+        ],
+      ),
+    );
   }
 }
