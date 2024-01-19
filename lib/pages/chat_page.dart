@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:chatting_app/models/user_model.dart';
-import 'package:chatting_app/widgets/message_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,26 +10,49 @@ import 'package:image_picker/image_picker.dart';
 final firebaseAuthInstance = FirebaseAuth.instance;
 final firebaseStorageInstance = FirebaseStorage.instance;
 final firebaseFireStore = FirebaseFirestore.instance;
-final firebaseCloudMessaging = FirebaseMessaging.instance;
+final fcm = FirebaseMessaging.instance;
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key, required this.user}) : super(key: key);
-
-  final UserModel user;
+class ChatPage extends StatefulWidget {
+  const ChatPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatPageState extends State<ChatPage> {
   File? _selectedImage;
-  final controller = TextEditingController();
-  List<String> messageList = [];
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+  void initState() {
+    _requestNotificationPermission();
+    super.initState();
+  }
+
+  void _requestNotificationPermission() async {
+    NotificationSettings settings = await fcm.requestPermission();
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      String? token = await fcm.getToken();
+      // gcm-fcm token
+      _updateTokenInDb(token!);
+
+      fcm.onTokenRefresh.listen((token) {
+        _updateTokenInDb(token);
+      });
+
+      await fcm.subscribeToTopic("flutter1b");
+
+      // deeplink
+    }
+  }
+
+  void _updateTokenInDb(String token) async {
+    await firebaseFireStore
+        .collection("users")
+        .doc(firebaseAuthInstance.currentUser!.uid)
+        .update({'fcm': token});
   }
 
   void _pickImage() async {
@@ -59,7 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
       await firebaseFireStore
           .collection("users")
           .doc(loggedInUser.uid)
-          .update({'image': url});
+          .update({'imageUrl': url});
     }
   }
 
@@ -69,85 +90,59 @@ class _ChatScreenState extends State<ChatScreen> {
         firebaseFireStore.collection("users").doc(loggedInUser!.uid);
     final documentSnapshot = await document.get();
 
-    final imageUrl = await documentSnapshot.get("image");
+    final imageUrl = await documentSnapshot.get("imageUrl");
+
     return imageUrl;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: <Widget>[
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                widget.user.image!,
-              ),
-              radius: 20,
-            ),
-            const SizedBox(width: 10),
-            Column(
-              children: [
-                Text(
-                  widget.user.name,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  widget.user.isOnline ? 'Online' : 'Offline',
-                  style: TextStyle(
-                    color: widget.user.isOnline ? Colors.green : Colors.grey,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: MessageField(
-                    controller: controller,
-                    hintText: "Add Message...",
-                  ),
-                ),
-                const SizedBox(width: 5),
-                CircleAvatar(
-                  backgroundColor: Colors.deepPurple,
-                  radius: 20,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 5),
-                CircleAvatar(
-                  backgroundColor: Colors.deepPurple,
-                  radius: 20,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+      appBar: AppBar(title: const Text("Firebase App"), actions: [
+        IconButton(
+            onPressed: () {
+              firebaseAuthInstance.signOut();
+            },
+            icon: const Icon(Icons.logout))
+      ]),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(children: [
+            const SizedBox(height: 30),
+            if (_selectedImage == null)
+              FutureBuilder(
+                  future: _getUserImage(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      return CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 40,
+                          foregroundImage: NetworkImage(snapshot.data!));
+                    }
+                    if (snapshot.hasError) {
+                      return const Text("Avatar yüklenirken bir hata oluştu..");
+                    }
+                    return const CircularProgressIndicator();
+                  }),
+            if (_selectedImage != null)
+              CircleAvatar(
+                  radius: 40, foregroundImage: FileImage(_selectedImage!)),
+            TextButton(
+                onPressed: () {
+                  _pickImage();
+                },
+                child: const Text("Resim Seç")),
+            if (_selectedImage != null)
+              ElevatedButton(
+                  onPressed: () {
+                    _uploadImage();
+                  },
+                  child: const Text("Yükle"))
+          ]),
+        ],
       ),
     );
   }

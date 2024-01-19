@@ -1,8 +1,5 @@
-import 'package:chatting_app/models/user_model.dart';
-import 'package:chatting_app/pages/chat_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 final firebaseAuthInstance = FirebaseAuth.instance;
@@ -18,36 +15,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var _isLogin = true;
 
-  @override
-  void initState() {
-    super.initState();
-    _requestNotificationPermission();
-  }
-
-  void _requestNotificationPermission() async {
-    NotificationSettings settings =
-        await firebaseCloudMessaging.requestPermission();
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      String? token = await firebaseCloudMessaging.getToken();
-
-      _updateTokenInDb(token!);
-
-      firebaseCloudMessaging.onTokenRefresh.listen(
-        (token) => _updateTokenInDb(token),
-      );
-    }
-  }
-
-  void _updateTokenInDb(String token) async {
-    await firebaseFireStore
-        .collection("users")
-        .doc(firebaseAuthInstance.currentUser!.uid)
-        .update(
-      {"notificationToken": token},
-    );
-  }
-
   void _submit() async {
     //_formKey.currentState!.validate();
     _formKey.currentState!.save();
@@ -55,17 +22,9 @@ class _LoginPageState extends State<LoginPage> {
     if (_isLogin) {
       // Giriş Yap
       try {
-        await firebaseAuthInstance.signInWithEmailAndPassword(
-          email: _email,
-          password: _password,
-        );
-
-        await firebaseFireStore
-            .collection("users")
-            .doc(firebaseAuthInstance.currentUser!.uid)
-            .update(
-          {'lastActive': DateTime.now()},
-        );
+        final userCredentials = await firebaseAuthInstance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        print(userCredentials);
       } on FirebaseAuthException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(error.message ?? "Giriş hatalı")));
@@ -81,15 +40,7 @@ class _LoginPageState extends State<LoginPage> {
         await firebaseFireStore
             .collection("users")
             .doc(userCredentials.user!.uid)
-            .set(
-              UserModel(
-                id: userCredentials.user!.uid,
-                name: "Cem",
-                email: userCredentials.user!.email!,
-                lastActive: Timestamp.now(),
-                isOnline: true,
-              ).toJson(),
-            );
+            .set({'email': _email});
       } on FirebaseAuthException catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(error.message ?? "Kayıt Hatalı")));
