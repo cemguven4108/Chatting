@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "357493222294",
+    "firebase_url": "https://chatting-c8b3d-default-rtdb.firebaseio.com",
+    "project_id": "chatting-c8b3d",
+    "storage_bucket": "chatting-c8b3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357493222294:android:1361ebf49f789167674bb7",
+        "android_client_info": {
+          "package_name": "com.example.chatting_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANFpDJSGIOprCEHaMhtB_QH_gIqH46_po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

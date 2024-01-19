@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCrIo_E67Ny8C47tPUdLwUddhx_jvOcZYk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>357493222294</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.chattingApp</string>
+	<key>PROJECT_ID</key>
+	<string>chatting-c8b3d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chatting-c8b3d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:357493222294:ios:364096e6b0ad8c0e674bb7</string>
+	<key>DATABASE_URL</key>
+	<string>https://chatting-c8b3d-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
