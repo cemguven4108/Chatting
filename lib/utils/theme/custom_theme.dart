@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 abstract class CustomTheme {
-  final TextTheme textTheme;
+  final TextTheme? textTheme;
+  final ButtonTheme? buttonTheme;
+  final InputDecoration? inputDecorationTheme;
   
   const CustomTheme({
-    required this.textTheme,
+    this.textTheme,
+    this.buttonTheme,
+    this.inputDecorationTheme
   });
 }

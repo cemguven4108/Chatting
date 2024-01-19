@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
       children: <Widget>[
         Text(
           formTitle,
-          style: ThemeGenerator.of(context).theme.textTheme.titleLarge,
+          style: ThemeGenerator.of(context).textTheme!.titleLarge,
         ),
         const Spacer(),
         const AuthFormField(

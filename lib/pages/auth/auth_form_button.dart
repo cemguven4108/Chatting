@@ -1,3 +1,4 @@
+import 'package:chatting_app/utils/theme/theme_generator.dart';
 import 'package:flutter/material.dart';
 
 class AuthFormButton extends StatelessWidget {
@@ -15,10 +16,7 @@ class AuthFormButton extends StatelessWidget {
         onPressed: () {},
         child: Text(
           label,
-          style: TextStyle(
-            color: Colors.deepPurple.shade900,
-            fontStyle: FontStyle.italic,
-          ),
+          style: ThemeGenerator.of(context).textTheme!.labelLarge,
         ),
       ),
     );

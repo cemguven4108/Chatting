@@ -14,13 +14,14 @@ void main() async {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return const UsersPage();
-            }
-            return const LoginPage();
-          }),
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const UsersPage();
+          }
+          return const LoginPage();
+        },
+      ),
     ),
   );
 }

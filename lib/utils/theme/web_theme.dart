@@ -15,5 +15,5 @@ class WebTheme extends CustomTheme {
 }
 
 TextTheme customTextTheme() {
-  return AndroidTheme.light().textTheme;
+  return AndroidTheme.light().textTheme!;
 }

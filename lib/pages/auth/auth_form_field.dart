@@ -1,4 +1,5 @@
 import 'package:chatting_app/constants/auth/auth_widget_constants.dart';
+import 'package:chatting_app/utils/theme/theme_generator.dart';
 import 'package:flutter/material.dart';
 
 class AuthFormField extends StatefulWidget {
@@ -41,29 +42,20 @@ class _AuthFormFieldState extends State<AuthFormField> {
         onSaved: widget.onSaved,
         keyboardType: buildEmailKeyboard(),
         decoration: InputDecoration(
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide(
-              color: Colors.white70,
-            ),
-          ),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            borderSide: BorderSide(
-              color: Colors.white70,
-            ),
-          ),
+          border: ThemeGenerator.of(context).inputDecorationTheme!.border,
+          enabledBorder:
+              ThemeGenerator.of(context).inputDecorationTheme!.enabledBorder,
+          errorBorder:
+              ThemeGenerator.of(context).inputDecorationTheme!.errorBorder,
+          prefixIconColor:
+              ThemeGenerator.of(context).inputDecorationTheme!.prefixIconColor,
+          suffixIconColor:
+              ThemeGenerator.of(context).inputDecorationTheme!.suffixIconColor,
+          labelStyle: ThemeGenerator.of(context).textTheme!.labelMedium,
           prefixIcon: Icon(
             widget.icon,
-            color: Colors.white70,
           ),
-          label: Text(
-            widget.label,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
+          label: Text(widget.label),
           suffixIcon: buildPasswordField(),
         ),
       ),
@@ -86,10 +78,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
           });
         },
         icon: Icon(
-          isVisible
-              ? formFieldPasswordVisible
-              : formFieldPasswordNotVisible,
-          color: Colors.white70,
+          isVisible ? formFieldPasswordVisible : formFieldPasswordNotVisible,
         ),
       );
     }

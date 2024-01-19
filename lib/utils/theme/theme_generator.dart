@@ -8,44 +8,24 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ThemeGenerator {
-  final CustomTheme theme;
+  const ThemeGenerator._();
 
-  const ThemeGenerator._({
-    required this.theme,
-  });
-
-  factory ThemeGenerator.of(BuildContext context) {
+  static CustomTheme of(BuildContext context) {
     if (kIsWeb) {
-      return ThemeGenerator._(
-        theme: WebTheme.theme(),
-      );
+      return WebTheme.theme();
     }
 
     if (MediaQuery.of(context).platformBrightness == Brightness.light) {
-      return ThemeGenerator._light();
+      if (Platform.isAndroid || Platform.isWindows) {
+        return AndroidTheme.light();
+      } else {
+        return IosTheme.light();
+      }
     }
-    return ThemeGenerator._dark();
-  }
 
-  factory ThemeGenerator._light() {
     if (Platform.isAndroid || Platform.isWindows) {
-      return ThemeGenerator._(
-        theme: AndroidTheme.light(),
-      );
+      return AndroidTheme.dark();
     }
-    return ThemeGenerator._(
-      theme: IosTheme.light(),
-    );
-  }
-
-  factory ThemeGenerator._dark() {
-    if (Platform.isAndroid || Platform.isWindows) {
-      return ThemeGenerator._(
-        theme: AndroidTheme.dark(),
-      );
-    }
-    return ThemeGenerator._(
-      theme: IosTheme.dark(),
-    );
+    return IosTheme.dark();
   }
 }
