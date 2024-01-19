@@ -1,3 +1,4 @@
+import 'package:chatting_app/constants/auth/auth_widget_constants.dart';
 import 'package:flutter/material.dart';
 
 class AuthFormField extends StatefulWidget {
@@ -33,33 +34,38 @@ class _AuthFormFieldState extends State<AuthFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: isVisible,
-      validator: widget.validator,
-      onSaved: widget.onSaved,
-      keyboardType: buildEmailKeyboard(),
-      decoration: InputDecoration(
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide(
+    return Flexible(
+      child: TextFormField(
+        obscureText: isVisible,
+        validator: widget.validator,
+        onSaved: widget.onSaved,
+        keyboardType: buildEmailKeyboard(),
+        decoration: InputDecoration(
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(
+              color: Colors.white70,
+            ),
+          ),
+          prefixIcon: Icon(
+            widget.icon,
             color: Colors.white70,
           ),
-        ),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          borderSide: BorderSide(
-            color: Colors.white70,
+          label: Text(
+            widget.label,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontStyle: FontStyle.italic,
+            ),
           ),
+          suffixIcon: buildPasswordField(),
         ),
-        icon: Icon(
-          widget.icon,
-          color: Colors.white70,
-        ),
-        label: Text(
-          widget.label,
-          style: const TextStyle(color: Colors.white70),
-        ),
-        suffixIcon: buildPasswordField(),
       ),
     );
   }
@@ -81,8 +87,8 @@ class _AuthFormFieldState extends State<AuthFormField> {
         },
         icon: Icon(
           isVisible
-              ? Icons.remove_red_eye_outlined
-              : Icons.visibility_off_outlined,
+              ? formFieldPasswordVisible
+              : formFieldPasswordNotVisible,
           color: Colors.white70,
         ),
       );

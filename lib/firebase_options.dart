@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -48,6 +42,16 @@ class DefaultFirebaseOptions {
         );
     }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCCQ5BQJqNArSu24xfLwoyx9jq0HaIT77o',
+    appId: '1:357493222294:web:d84827d152810190674bb7',
+    messagingSenderId: '357493222294',
+    projectId: 'chatting-c8b3d',
+    authDomain: 'chatting-c8b3d.firebaseapp.com',
+    databaseURL: 'https://chatting-c8b3d-default-rtdb.firebaseio.com',
+    storageBucket: 'chatting-c8b3d.appspot.com',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyANFpDJSGIOprCEHaMhtB_QH_gIqH46_po',
@@ -66,5 +70,15 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://chatting-c8b3d-default-rtdb.firebaseio.com',
     storageBucket: 'chatting-c8b3d.appspot.com',
     iosBundleId: 'com.example.chattingApp',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCrIo_E67Ny8C47tPUdLwUddhx_jvOcZYk',
+    appId: '1:357493222294:ios:b8afd68a45d94e77674bb7',
+    messagingSenderId: '357493222294',
+    projectId: 'chatting-c8b3d',
+    databaseURL: 'https://chatting-c8b3d-default-rtdb.firebaseio.com',
+    storageBucket: 'chatting-c8b3d.appspot.com',
+    iosBundleId: 'com.example.chattingApp.RunnerTests',
   );
 }

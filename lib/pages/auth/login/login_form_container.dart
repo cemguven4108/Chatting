@@ -18,8 +18,8 @@ class LoginFormContainer extends StatelessWidget {
         gradient: RadialGradient(
           tileMode: TileMode.repeated,
           colors: [
-            Colors.deepPurple.shade400,
-            Colors.white24,
+            Colors.deepPurple.shade700,
+            Colors.white30,
           ],
         ),
       ),

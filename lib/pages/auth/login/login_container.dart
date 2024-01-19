@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginBackground extends StatelessWidget {
-  const LoginBackground({
+class LoginContainer extends StatelessWidget {
+  const LoginContainer({
     Key? key,
     this.child,
   }) : super(key: key);
@@ -17,7 +17,7 @@ class LoginBackground extends StatelessWidget {
           startAngle: 0.0,
           endAngle: 1.0,
           colors: [
-            Colors.deepPurple,
+            Colors.deepPurple.shade800,
             Colors.deepPurple.shade400,
           ],
         ),

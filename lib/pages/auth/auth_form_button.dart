@@ -10,9 +10,17 @@ class AuthFormButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: Text(label),
+    return Flexible(
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Text(
+          label,
+          style: TextStyle(
+            color: Colors.deepPurple.shade900,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ),
     );
   }
 }
