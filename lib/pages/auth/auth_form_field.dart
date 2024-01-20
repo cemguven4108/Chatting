@@ -9,16 +9,20 @@ class AuthFormField extends StatefulWidget {
     required this.icon,
     this.isPassword,
     this.isEmail,
+    this.controller,
     this.validator,
     this.onSaved,
+    this.onChanged,
   }) : super(key: key);
 
   final String label;
   final IconData icon;
   final bool? isPassword;
   final bool? isEmail;
-  final String? Function(String?)? validator;
-  final void Function(String?)? onSaved;
+  final TextEditingController? controller;
+  final String? Function(String? value)? validator;
+  final void Function(String? value)? onSaved;
+  final void Function(String value)? onChanged;
 
   @override
   State<AuthFormField> createState() => _AuthFormFieldState();
@@ -38,9 +42,11 @@ class _AuthFormFieldState extends State<AuthFormField> {
     return Container(
       margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
       child: TextFormField(
+        controller: widget.controller,
         obscureText: isVisible,
         validator: widget.validator,
         onSaved: widget.onSaved,
+        onChanged: widget.onChanged,
         keyboardType: buildEmailKeyboard(),
         decoration: InputDecoration(
           border: ThemeGenerator.of(context).inputDecorationTheme!.border,

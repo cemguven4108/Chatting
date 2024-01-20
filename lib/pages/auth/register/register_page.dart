@@ -1,20 +1,40 @@
+import 'package:chatting_app/api/repository/user_repository.dart';
+import 'package:chatting_app/configuration/firebase_configuration.dart';
+import 'package:chatting_app/core/extensions/string_extensions.dart';
+import 'package:chatting_app/models/user_model.dart';
 import 'package:chatting_app/pages/auth/auth_background.dart';
 import 'package:chatting_app/pages/auth/auth_form_button.dart';
 import 'package:chatting_app/pages/auth/auth_form_field.dart';
 import 'package:chatting_app/pages/auth/auth_form_container.dart';
-import 'package:chatting_app/utils/theme/theme_generator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    //final formKey = GlobalKey<FormState>();
-    final size = MediaQuery.of(context).size;
+  State<RegisterPage> createState() => _RegisterPageState();
+}
 
+class _RegisterPageState extends State<RegisterPage> {
+  late GlobalKey<FormState> formKey;
+
+  String fullNameText = "";
+  String emailText = "";
+  String passwordText = "";
+  String passwordRepeatText = "";
+
+  @override
+  void initState() {
+    super.initState();
+    formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -23,44 +43,103 @@ class RegisterPage extends StatelessWidget {
           AuthFormContainer(
             radius: 0.7,
             child: Form(
+              key: formKey,
               child: ListWheelScrollView(
                 itemExtent: 60,
-                children: const [
+                children: [
                   AuthFormField(
                     label: "Full Name",
                     icon: Icons.person_outline,
+                    validator: (value) => validateFields(value),
+                    onSaved: (name) => fullNameText = save(name),
                   ),
                   AuthFormField(
                     label: "Email",
                     icon: Icons.email_outlined,
                     isEmail: true,
+                    validator: (value) => validateFields(value),
+                    onSaved: (name) => emailText = save(name),
                   ),
                   AuthFormField(
                     label: "Password",
                     icon: Icons.key_outlined,
                     isPassword: true,
+                    validator: (value) => validatePassword(
+                      value,
+                      passwordRepeatText,
+                    ),
+                    onChanged: (value) => passwordText = value,
                   ),
                   AuthFormField(
                     label: "Password Repeat",
                     icon: Icons.key_outlined,
                     isPassword: true,
+                    validator: (value) => validatePassword(
+                      value,
+                      passwordText,
+                    ),
+                    onChanged: (value) => passwordRepeatText = value,
                   ),
                   AuthFormButton(
                     label: "Register",
+                    onPressed: () {
+                      final isValid = formKey.currentState!.validate();
+                      formKey.currentState!.save();
+                      if (isValid) {
+                        register();
+                      }
+                    },
                   ),
                 ],
               ),
             ),
           ),
-          Positioned(
-            top: size.height * 0.25,
-            child: Text(
-              "Register",
-              style: ThemeGenerator.of(context).textTheme!.titleLarge,
-            ),
-          ),
         ],
       ),
     );
+  }
+
+  void register() async {
+    final userRepository = UserRepository();
+
+    try {
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+        email: emailText,
+        password: passwordText,
+      );
+
+      userRepository.addUser(
+        UserModel(
+          id: userCredential.user!.uid,
+          fullName: fullNameText.toTitleCase(),
+          email: emailText,
+          lastActive: DateTime.now(),
+        ),
+      );
+    } on FirebaseAuthException catch (exception) {}
+  }
+
+  String save(String? value) {
+    if (value != null && value.isNotEmpty) {
+      return value;
+    }
+    return "";
+  }
+
+  String? validateFields(String? value) {
+    if (value == null || value.isEmpty) {
+      return "";
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value, String repeatValue) {
+    if (validateFields(value) != null) {
+      return "";
+    }
+    if (value != repeatValue) {
+      return "Passwords must be the same";
+    }
+    return null;
   }
 }

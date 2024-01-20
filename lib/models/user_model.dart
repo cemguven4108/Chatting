@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
   final String id;
   final String fullName;
   final String email;
-  final String imageUrl;
+  final String? imageUrl;
   final DateTime lastActive;
   final bool isOnline;
 
@@ -12,7 +10,7 @@ class UserModel {
     required this.id,
     required this.fullName,
     required this.email,
-    required this.imageUrl,
+    this.imageUrl,
     required this.lastActive,
     this.isOnline = false,
   });
@@ -21,7 +19,7 @@ class UserModel {
         id: json['id'] as String,
         fullName: json['fullName'] as String,
         email: json['email'] as String,
-        imageUrl: json['imageUrl'] as String,
+        imageUrl: json['imageUrl'] as String?,
         lastActive: json['lastActive'].toDate() as DateTime,
         isOnline: json['isOnline'] ?? false,
       );
@@ -31,7 +29,7 @@ class UserModel {
         'fullName': fullName,
         'email': email,
         'imageUrl': imageUrl,
-        'lastActive': lastActive as Timestamp,
+        'lastActive': lastActive,
         'isOnline': isOnline,
       };
 }
