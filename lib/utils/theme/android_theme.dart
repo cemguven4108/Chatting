@@ -10,16 +10,12 @@ class AndroidTheme extends CustomTheme {
   factory AndroidTheme.light() {
     return AndroidTheme(
       textTheme: customTextTheme(
-        AndroidColors.bigTextLight,
+        mainColor: Colors.white,
+        secondaryColor: Colors.deepPurple.shade900,
       ),
       inputDecorationTheme: inputDecorationTheme(
-        borderSideColor: AndroidColors.inputDecorationBorderSideLight,
-        enabledBorderSideColor:
-            AndroidColors.inputDecorationEnabledBorderSideLight,
-        errorBorderSideColor: AndroidColors.inputDecorationErrorBorderSideLight,
-        prefixIconColor: AndroidColors.inputDecorationPrefixIconLight,
-        suffixIconColor: AndroidColors.inputDecorationSuffixIconLight,
-        labelColor: AndroidColors.bigTextLight,
+        mainColor: Colors.white,
+        errorColor: Colors.red,
       ),
     );
   }
@@ -27,71 +23,49 @@ class AndroidTheme extends CustomTheme {
   factory AndroidTheme.dark() {
     return AndroidTheme(
       textTheme: customTextTheme(
-        AndroidColors.bigTextDark,
+        mainColor: Colors.black,
+        secondaryColor: Colors.deepPurple.shade900,
       ),
       inputDecorationTheme: inputDecorationTheme(
-        borderSideColor: AndroidColors.inputDecorationBorderSideDark,
-        enabledBorderSideColor:
-            AndroidColors.inputDecorationEnabledBorderSideDark,
-        errorBorderSideColor: AndroidColors.inputDecorationErrorBorderSideDark,
-        prefixIconColor: AndroidColors.inputDecorationPrefixIconDark,
-        suffixIconColor: AndroidColors.inputDecorationSuffixIconDark,
-        labelColor: AndroidColors.bigTextDark,
+        mainColor: Colors.black,
+        errorColor: Colors.red,
       ),
     );
   }
 }
 
-class AndroidColors {
-  // Text - Light
-  static const bigTextLight = Colors.white;
-
-  // Text - Dark
-  static const bigTextDark = Colors.black;
-
-  // Input Decoration - Light
-  static const inputDecorationBorderSideLight = Colors.white70;
-  static const inputDecorationEnabledBorderSideLight = Colors.white70;
-  static const inputDecorationErrorBorderSideLight = Colors.red;
-  static const inputDecorationPrefixIconLight = Colors.white70;
-  static const inputDecorationSuffixIconLight = Colors.white70;
-
-  // Input Decoration - Dark
-  static const inputDecorationBorderSideDark = Colors.black87;
-  static const inputDecorationEnabledBorderSideDark = Colors.black87;
-  static const inputDecorationErrorBorderSideDark = Colors.red;
-  static const inputDecorationPrefixIconDark = Colors.black87;
-  static const inputDecorationSuffixIconDark = Colors.black87;
-}
-
-TextTheme customTextTheme(Color color) {
+TextTheme customTextTheme({
+  required Color mainColor,
+  required Color secondaryColor,
+}) {
   return TextTheme(
-    titleLarge: TextStyle(
-      color: color,
-      fontSize: 25,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.bold,
-    ),
-    labelLarge: TextStyle(
-      color: Colors.deepPurple.shade900,
-      fontSize: 14,
-      fontStyle: FontStyle.italic,
-    ),
-    labelMedium: TextStyle(
-      color: Colors.black,
-      fontSize: 16,
-      fontStyle: FontStyle.italic,
-    )
-  );
+      titleLarge: TextStyle(
+        color: mainColor,
+        fontSize: 25,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      ),
+      bodyLarge: TextStyle(
+        color: mainColor,
+        fontSize: 17,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w400,
+      ),
+      labelLarge: TextStyle(
+        color: secondaryColor,
+        fontSize: 14,
+        fontStyle: FontStyle.italic,
+      ),
+      labelMedium: TextStyle(
+        color: secondaryColor,
+        fontSize: 13,
+        fontStyle: FontStyle.italic,
+      ));
 }
 
 InputDecoration inputDecorationTheme({
-  required Color borderSideColor,
-  required Color enabledBorderSideColor,
-  required Color errorBorderSideColor,
-  required Color prefixIconColor,
-  required Color suffixIconColor,
-  required Color labelColor,
+  required Color mainColor,
+  required Color errorColor,
 }) {
   return InputDecoration(
     border: OutlineInputBorder(
@@ -99,7 +73,7 @@ InputDecoration inputDecorationTheme({
         Radius.circular(20),
       ),
       borderSide: BorderSide(
-        color: borderSideColor,
+        color: mainColor,
       ),
     ),
     enabledBorder: OutlineInputBorder(
@@ -107,7 +81,7 @@ InputDecoration inputDecorationTheme({
         Radius.circular(20),
       ),
       borderSide: BorderSide(
-        color: enabledBorderSideColor,
+        color: mainColor,
       ),
     ),
     errorBorder: OutlineInputBorder(
@@ -115,11 +89,10 @@ InputDecoration inputDecorationTheme({
         Radius.circular(20),
       ),
       borderSide: BorderSide(
-        color: errorBorderSideColor,
+        color: errorColor,
       ),
     ),
-    prefixIconColor: prefixIconColor,
-    suffixIconColor: suffixIconColor,
-    labelStyle: customTextTheme(labelColor).labelMedium,
+    prefixIconColor: mainColor,
+    suffixIconColor: mainColor,
   );
 }

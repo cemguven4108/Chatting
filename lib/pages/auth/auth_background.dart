@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginContainer extends StatelessWidget {
-  const LoginContainer({
+class AuthBackground extends StatelessWidget {
+  const AuthBackground({
     Key? key,
     this.child,
   }) : super(key: key);

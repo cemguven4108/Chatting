@@ -2,8 +2,8 @@ import 'package:chatting_app/constants/auth/login/login_text_constants.dart';
 import 'package:chatting_app/constants/auth/login/login_widget_constants.dart';
 import 'package:chatting_app/pages/auth/auth_form_button.dart';
 import 'package:chatting_app/pages/auth/auth_form_field.dart';
-import 'package:chatting_app/pages/auth/login/login_container.dart';
-import 'package:chatting_app/pages/auth/login/login_form_container.dart';
+import 'package:chatting_app/pages/auth/auth_background.dart';
+import 'package:chatting_app/pages/auth/auth_form_container.dart';
 import 'package:chatting_app/pages/auth/recovery/recovery_page.dart';
 import 'package:chatting_app/pages/auth/register/register_page.dart';
 import 'package:chatting_app/utils/theme/theme_generator.dart';
@@ -16,16 +16,15 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+    //final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      body: LoginContainer(
+      body: AuthBackground(
         child: Center(
           child: AspectRatio(
             aspectRatio: 1 / 1,
-            child: LoginFormContainer(
+            child: AuthFormContainer(
               child: Form(
-                key: formKey,
                 child: buildFormChildren(context),
               ),
             ),
@@ -44,20 +43,25 @@ class LoginPage extends StatelessWidget {
           style: ThemeGenerator.of(context).textTheme!.titleLarge,
         ),
         const Spacer(),
-        const AuthFormField(
-          label: formFieldEmail,
-          icon: formFieldIconEmail,
+        const Flexible(
+          child: AuthFormField(
+            label: formFieldEmail,
+            icon: formFieldIconEmail,
+          ),
         ),
-        const SizedBox(height: 5),
-        const AuthFormField(
-          label: formFieldPassword,
-          icon: formFieldIconPassword,
-          isPassword: true,
+        const Flexible(
+          child: AuthFormField(
+            label: formFieldPassword,
+            icon: formFieldIconPassword,
+            isPassword: true,
+          ),
         ),
         buildNavigationButtons(context),
         const Spacer(),
-        const AuthFormButton(
-          label: buttonTitle,
+        const Flexible(
+          child: AuthFormButton(
+            label: buttonTitle,
+          ),
         ),
       ],
     );
@@ -79,10 +83,7 @@ class LoginPage extends StatelessWidget {
             },
             child: Text(
               gestureForgotTitle,
-              style: TextStyle(
-                color: Colors.deepPurple.shade900,
-                fontStyle: FontStyle.italic,
-              ),
+              style: ThemeGenerator.of(context).textTheme!.labelMedium,
             ),
           ),
           GestureDetector(
@@ -95,10 +96,7 @@ class LoginPage extends StatelessWidget {
             },
             child: Text(
               gestureRegisterTitle,
-              style: TextStyle(
-                color: Colors.deepPurple.shade900,
-                fontStyle: FontStyle.italic,
-              ),
+              style: ThemeGenerator.of(context).textTheme!.labelMedium,
             ),
           ),
         ],

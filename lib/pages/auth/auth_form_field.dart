@@ -35,7 +35,8 @@ class _AuthFormFieldState extends State<AuthFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return Container(
+      margin: const EdgeInsets.only(top: 5, left: 5, right: 5),
       child: TextFormField(
         obscureText: isVisible,
         validator: widget.validator,
@@ -51,11 +52,9 @@ class _AuthFormFieldState extends State<AuthFormField> {
               ThemeGenerator.of(context).inputDecorationTheme!.prefixIconColor,
           suffixIconColor:
               ThemeGenerator.of(context).inputDecorationTheme!.suffixIconColor,
-          labelStyle: ThemeGenerator.of(context).textTheme!.labelMedium,
-          prefixIcon: Icon(
-            widget.icon,
-          ),
+          labelStyle: ThemeGenerator.of(context).textTheme!.bodyLarge,
           label: Text(widget.label),
+          prefixIcon: Icon(widget.icon),
           suffixIcon: buildPasswordField(),
         ),
       ),

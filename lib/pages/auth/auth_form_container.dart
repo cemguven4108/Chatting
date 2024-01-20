@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LoginFormContainer extends StatelessWidget {
-  const LoginFormContainer({
+class AuthFormContainer extends StatelessWidget {
+  const AuthFormContainer({
     Key? key,
     this.child,
+    this.radius,
   }) : super(key: key);
 
+  final double? radius;
   final Widget? child;
 
   @override
@@ -17,6 +19,7 @@ class LoginFormContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
         gradient: RadialGradient(
           tileMode: TileMode.repeated,
+          radius: radius ?? 0.5,
           colors: [
             Colors.deepPurple.shade700,
             Colors.white30,
