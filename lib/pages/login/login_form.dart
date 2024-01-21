@@ -1,5 +1,10 @@
+import 'package:chatting_app/bloc/auth/auth_bloc.dart';
+import 'package:chatting_app/bloc/auth/auth_event.dart';
+import 'package:chatting_app/bloc/auth/auth_state.dart';
+import 'package:chatting_app/pages/home/home_page.dart';
 import 'package:chatting_app/pages/login/login_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -69,6 +74,8 @@ class _LoginFormState extends State<LoginForm> {
         final result = _formKey.currentState!.validate();
         if (result) {
           _formKey.currentState!.save();
+          context.read<AuthBloc>().add(LoginEvent(
+              email: "cemguven4108@hotmail.com", password: "cemguven4108"));
         }
       },
       child: const Text("Login"),

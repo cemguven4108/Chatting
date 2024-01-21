@@ -23,6 +23,10 @@ class AuthRepository {
     );
   }
 
+  Future<void> deleteUser() async {
+    await _firebaseAuth.currentUser!.delete();
+  }
+
   User? getUser() {
     return _firebaseAuth.currentUser;
   }

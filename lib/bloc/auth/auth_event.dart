@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class AuthEvent {}
 
 class LoginEvent extends AuthEvent {
@@ -10,18 +12,18 @@ class LoginEvent extends AuthEvent {
   });
 }
 
-class Logout extends AuthEvent {}
+class LogoutEvent extends AuthEvent {}
 
 class RegisterEvent extends AuthEvent {
   final String email;
   final String password;
   final String fullName;
-  final String imageUrl;
+  final File file;
 
   RegisterEvent({
     required this.email,
     required this.password,
     required this.fullName,
-    required this.imageUrl,
+    required this.file,
   });
 }
