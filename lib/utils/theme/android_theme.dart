@@ -10,11 +10,11 @@ class AndroidTheme extends CustomTheme {
   factory AndroidTheme.light() {
     return AndroidTheme(
       textTheme: customTextTheme(
-        mainColor: Colors.white,
+        mainColor: Colors.white70,
         secondaryColor: Colors.deepPurple.shade900,
       ),
       inputDecorationTheme: inputDecorationTheme(
-        mainColor: Colors.white,
+        mainColor: Colors.white54,
         errorColor: Colors.red,
       ),
     );
@@ -39,28 +39,52 @@ TextTheme customTextTheme({
   required Color secondaryColor,
 }) {
   return TextTheme(
-      titleLarge: TextStyle(
-        color: mainColor,
-        fontSize: 25,
-        fontStyle: FontStyle.italic,
-        fontWeight: FontWeight.bold,
-      ),
-      bodyLarge: TextStyle(
-        color: mainColor,
-        fontSize: 17,
-        fontStyle: FontStyle.italic,
-        fontWeight: FontWeight.w400,
-      ),
-      labelLarge: TextStyle(
-        color: secondaryColor,
-        fontSize: 14,
-        fontStyle: FontStyle.italic,
-      ),
-      labelMedium: TextStyle(
-        color: secondaryColor,
-        fontSize: 13,
-        fontStyle: FontStyle.italic,
-      ));
+    headlineLarge: TextStyle(
+      color: mainColor,
+      fontSize: 50,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w600,
+    ),
+    titleLarge: TextStyle(
+      color: mainColor,
+      fontSize: 25,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.bold,
+    ),
+    bodyLarge: TextStyle(
+      color: mainColor,
+      fontSize: 17,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w400,
+    ),
+    bodyMedium: TextStyle(
+      color: mainColor,
+      fontSize: 16,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w400,
+    ),
+    bodySmall: TextStyle(
+      color: mainColor,
+      fontSize: 15,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w400,
+    ),
+    labelLarge: TextStyle(
+      color: secondaryColor,
+      fontSize: 14,
+      fontStyle: FontStyle.italic,
+    ),
+    labelMedium: TextStyle(
+      color: secondaryColor,
+      fontSize: 13,
+      fontStyle: FontStyle.italic,
+    ),
+    labelSmall: TextStyle(
+      color: secondaryColor,
+      fontSize: 12,
+      fontStyle: FontStyle.italic,
+    )
+  );
 }
 
 InputDecoration inputDecorationTheme({

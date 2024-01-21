@@ -1,6 +1,8 @@
 import 'package:chatting_app/bloc/auth/auth_bloc.dart';
 import 'package:chatting_app/bloc/auth/auth_event.dart';
 import 'package:chatting_app/pages/login/login_form_field.dart';
+import 'package:chatting_app/pages/register/register_page.dart';
+import 'package:chatting_app/utils/theme/theme_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,16 +28,12 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            buildTitle(),
-            buildFormFields(),
-            buildFormButton(),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          buildFormFields(),
+          buildFormButton(),
+        ],
       ),
     );
   }
@@ -49,6 +47,7 @@ class _LoginFormState extends State<LoginForm> {
         fontSize: 25,
         fontStyle: FontStyle.italic,
       ),
+      textAlign: TextAlign.center,
     );
   }
 
@@ -67,16 +66,37 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Widget buildFormButton() {
-    return ElevatedButton(
-      onPressed: () {
-        final result = _formKey.currentState!.validate();
-        if (result) {
-          _formKey.currentState!.save();
-          context.read<AuthBloc>().add(LoginEvent(
-              email: "cemguven4108@hotmail.com", password: "cemguven4108"));
-        }
-      },
-      child: const Text("Login"),
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.only(right: 20),
+          alignment: Alignment.bottomRight,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const RegisterPage(),
+                ),
+              );
+            },
+            child: Text(
+              "Register?",
+              style: ThemeGenerator.of(context).textTheme!.bodyMedium,
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final result = _formKey.currentState!.validate();
+            if (result) {
+              _formKey.currentState!.save();
+              context.read<AuthBloc>().add(LoginEvent(
+                  email: "cemguven4108@hotmail.com", password: "cemguven4108"));
+            }
+          },
+          child: const Text("Login"),
+        ),
+      ],
     );
   }
 }
