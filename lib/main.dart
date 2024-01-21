@@ -1,4 +1,5 @@
 import 'package:chatting_app/bloc/auth/auth_bloc.dart';
+import 'package:chatting_app/bloc/auth/auth_state.dart';
 import 'package:chatting_app/configuration/firebase_configuration.dart';
 import 'package:chatting_app/firebase_options.dart';
 import 'package:chatting_app/pages/home/home_page.dart';
@@ -25,12 +26,9 @@ void main() async {
       providers: providers,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: StreamBuilder(
-          stream: firebaseAuth.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return const HomePage();
-            }
+        home: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthLoggedIn) return const HomePage();
             return const LoginPage();
           },
         ),
