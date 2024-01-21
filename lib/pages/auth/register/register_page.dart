@@ -1,13 +1,7 @@
-import 'package:chatting_app/api/repository/user_repository.dart';
-import 'package:chatting_app/configuration/firebase_configuration.dart';
-import 'package:chatting_app/core/extensions/string_extensions.dart';
-import 'package:chatting_app/models/user_model.dart';
 import 'package:chatting_app/pages/auth/auth_background.dart';
 import 'package:chatting_app/pages/auth/auth_form_button.dart';
 import 'package:chatting_app/pages/auth/auth_form_field.dart';
 import 'package:chatting_app/pages/auth/auth_form_container.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -100,23 +94,6 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void register() async {
-    final userRepository = UserRepository();
-
-    try {
-      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
-        email: emailText,
-        password: passwordText,
-      );
-
-      userRepository.addUser(
-        UserModel(
-          id: userCredential.user!.uid,
-          fullName: fullNameText.toTitleCase(),
-          email: emailText,
-          lastActive: DateTime.now(),
-        ),
-      );
-    } on FirebaseAuthException catch (exception) {}
   }
 
   String save(String? value) {

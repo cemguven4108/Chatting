@@ -1,6 +1,6 @@
 import 'package:chatting_app/models/user_model.dart';
+import 'package:chatting_app/pages/chat/chat_page.dart';
 import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class UserItem extends StatefulWidget {
   const UserItem({
@@ -18,7 +18,15 @@ class _UserItemState extends State<UserItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ChatPage(
+              userId: widget.user.id,
+            ),
+          ),
+        );
+      },
       child: ListTile(
         contentPadding: EdgeInsets.zero,
         leading: Stack(
@@ -26,7 +34,9 @@ class _UserItemState extends State<UserItem> {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: widget.user.imageUrl != null ? NetworkImage(widget.user.imageUrl!) : null,
+              backgroundImage: widget.user.imageUrl != null
+                  ? NetworkImage(widget.user.imageUrl!)
+                  : null,
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -44,15 +54,6 @@ class _UserItemState extends State<UserItem> {
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          'Last Active : ${timeago.format(widget.user.lastActive)}',
-          maxLines: 2,
-          style: const TextStyle(
-            color: Colors.deepPurple,
-            fontSize: 15,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

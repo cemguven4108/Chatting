@@ -8,7 +8,6 @@ import 'package:chatting_app/pages/auth/auth_form_container.dart';
 import 'package:chatting_app/pages/auth/recovery/recovery_page.dart';
 import 'package:chatting_app/pages/auth/register/register_page.dart';
 import 'package:chatting_app/utils/theme/theme_generator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -76,7 +75,9 @@ class _LoginPageState extends State<LoginPage> {
           child: AuthFormField(
             label: formFieldEmail,
             icon: formFieldIconEmail,
-            onSaved: (value) => emailController.text = value!,
+            onSaved: (value) {
+              emailController.text = value!;
+            },
           ),
         ),
         Flexible(
@@ -84,7 +85,9 @@ class _LoginPageState extends State<LoginPage> {
             label: formFieldPassword,
             icon: formFieldIconPassword,
             isPassword: true,
-            onSaved: (value) => passwordController.text = value!,
+            onSaved: (value) {
+              passwordController.text = value!;
+            },
           ),
         ),
         buildNavigationButtons(context),
@@ -150,12 +153,13 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
 
-      await firebaseFirestore.collection("users").doc(firebaseAuth.currentUser!.uid).update({
+      await firebaseFirestore
+          .collection("users")
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({
         "isOnline": true,
         "lastActive": DateTime.now(),
       });
-    } on FirebaseAuthException catch (exception) {
-      //
-    }
+    } catch (exception) {}
   }
 }
