@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:chatting_app/repository/storage_repository.dart';
+import 'package:chatting_app/api/repository/storage_repository.dart';
 
 class StorageService {
   final StorageRepository _storageRepository;

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:chatting_app/bloc/auth/auth_event.dart';
-import 'package:chatting_app/bloc/auth/auth_state.dart';
-import 'package:chatting_app/service/auth_service.dart';
+import 'package:chatting_app/api/bloc/auth/auth_event.dart';
+import 'package:chatting_app/api/bloc/auth/auth_state.dart';
+import 'package:chatting_app/api/service/auth_service.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService _authService;

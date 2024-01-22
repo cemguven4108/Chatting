@@ -1,5 +1,5 @@
-import 'package:chatting_app/bloc/auth/auth_bloc.dart';
-import 'package:chatting_app/bloc/auth/auth_event.dart';
+import 'package:chatting_app/api/bloc/auth/auth_bloc.dart';
+import 'package:chatting_app/api/bloc/auth/auth_event.dart';
 import 'package:chatting_app/pages/login/login_form_field.dart';
 import 'package:chatting_app/pages/register/register_page.dart';
 import 'package:chatting_app/utils/theme/theme_generator.dart';
@@ -17,11 +17,20 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   late GlobalKey<FormState> _formKey;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,12 +61,14 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Widget buildFormFields() {
-    return const Column(
+    return Column(
       children: <Widget>[
         LoginFormField(
+          controller: emailController,
           hintText: "Email",
         ),
         LoginFormField(
+          controller: passwordController,
           hintText: "Password",
           isPassword: true,
         ),
@@ -86,12 +97,15 @@ class _LoginFormState extends State<LoginForm> {
           ),
         ),
         ElevatedButton(
+          style: ThemeGenerator.of(context).elevatedButtonStyle,
           onPressed: () {
             final result = _formKey.currentState!.validate();
             if (result) {
               _formKey.currentState!.save();
               context.read<AuthBloc>().add(LoginEvent(
-                  email: "cemguven4108@hotmail.com", password: "cemguven4108"));
+                    email: emailController.text,
+                    password: passwordController.text,
+                  ));
             }
           },
           child: const Text("Login"),

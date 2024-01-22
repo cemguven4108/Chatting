@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AndroidTheme extends CustomTheme {
   AndroidTheme({
     super.textTheme,
+    super.elevatedButtonStyle,
     super.inputDecorationTheme,
   });
 
@@ -12,6 +13,10 @@ class AndroidTheme extends CustomTheme {
       textTheme: customTextTheme(
         mainColor: Colors.white70,
         secondaryColor: Colors.deepPurple.shade900,
+      ),
+      elevatedButtonStyle: customElevatedButtonStyle(
+        backgroundColor: Colors.white70,
+        foregroundColor: Colors.deepPurple.shade900,
       ),
       inputDecorationTheme: inputDecorationTheme(
         mainColor: Colors.white54,
@@ -26,6 +31,10 @@ class AndroidTheme extends CustomTheme {
         mainColor: Colors.black,
         secondaryColor: Colors.deepPurple.shade900,
       ),
+      elevatedButtonStyle: customElevatedButtonStyle(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white70,
+      ),
       inputDecorationTheme: inputDecorationTheme(
         mainColor: Colors.black,
         errorColor: Colors.red,
@@ -39,51 +48,60 @@ TextTheme customTextTheme({
   required Color secondaryColor,
 }) {
   return TextTheme(
-    headlineLarge: TextStyle(
-      color: mainColor,
-      fontSize: 50,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.w600,
-    ),
-    titleLarge: TextStyle(
-      color: mainColor,
-      fontSize: 25,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.bold,
-    ),
-    bodyLarge: TextStyle(
-      color: mainColor,
-      fontSize: 17,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.w400,
-    ),
-    bodyMedium: TextStyle(
-      color: mainColor,
-      fontSize: 16,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.w400,
-    ),
-    bodySmall: TextStyle(
-      color: mainColor,
-      fontSize: 15,
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.w400,
-    ),
-    labelLarge: TextStyle(
-      color: secondaryColor,
-      fontSize: 14,
-      fontStyle: FontStyle.italic,
-    ),
-    labelMedium: TextStyle(
-      color: secondaryColor,
-      fontSize: 13,
-      fontStyle: FontStyle.italic,
-    ),
-    labelSmall: TextStyle(
-      color: secondaryColor,
-      fontSize: 12,
-      fontStyle: FontStyle.italic,
-    )
+      headlineLarge: TextStyle(
+        color: mainColor,
+        fontSize: 50,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w600,
+      ),
+      titleLarge: TextStyle(
+        color: mainColor,
+        fontSize: 25,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      ),
+      bodyLarge: TextStyle(
+        color: mainColor,
+        fontSize: 17,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w400,
+      ),
+      bodyMedium: TextStyle(
+        color: mainColor,
+        fontSize: 16,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w400,
+      ),
+      bodySmall: TextStyle(
+        color: mainColor,
+        fontSize: 15,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w400,
+      ),
+      labelLarge: TextStyle(
+        color: secondaryColor,
+        fontSize: 14,
+        fontStyle: FontStyle.italic,
+      ),
+      labelMedium: TextStyle(
+        color: secondaryColor,
+        fontSize: 13,
+        fontStyle: FontStyle.italic,
+      ),
+      labelSmall: TextStyle(
+        color: secondaryColor,
+        fontSize: 12,
+        fontStyle: FontStyle.italic,
+      ));
+}
+
+ButtonStyle customElevatedButtonStyle({
+  required backgroundColor,
+  required foregroundColor,
+}) {
+  return ElevatedButton.styleFrom(
+    backgroundColor: backgroundColor,
+    foregroundColor: foregroundColor,
   );
 }
 
@@ -115,6 +133,9 @@ InputDecoration inputDecorationTheme({
       borderSide: BorderSide(
         color: errorColor,
       ),
+    ),
+    errorStyle: TextStyle(
+      color: errorColor,
     ),
     prefixIconColor: mainColor,
     suffixIconColor: mainColor,

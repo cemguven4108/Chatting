@@ -6,10 +6,12 @@ class LoginFormField extends StatelessWidget {
     Key? key,
     required this.hintText,
     this.isPassword = false,
+    this.controller,
   }) : super(key: key);
 
   final String hintText;
   final bool isPassword;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class LoginFormField extends StatelessWidget {
       width: size.height * 0.4,
       margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
       child: TextFormField(
+        controller: controller,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "";
@@ -40,6 +43,7 @@ class LoginFormField extends StatelessWidget {
           enabledBorder: ThemeGenerator.of(context).inputDecorationTheme!.enabledBorder,
           focusedBorder: ThemeGenerator.of(context).inputDecorationTheme!.focusedBorder,
           errorBorder: ThemeGenerator.of(context).inputDecorationTheme!.errorBorder,
+          errorStyle: ThemeGenerator.of(context).inputDecorationTheme!.errorStyle,
           prefixIcon: Icon(
             isPassword ? Icons.key_outlined : Icons.email_outlined,
           ),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 abstract class CustomTheme {
   final TextTheme? textTheme;
-  final ButtonTheme? buttonTheme;
+  final ButtonStyle? elevatedButtonStyle;
   final InputDecoration? inputDecorationTheme;
   
   const CustomTheme({
     this.textTheme,
-    this.buttonTheme,
+    this.elevatedButtonStyle,
     this.inputDecorationTheme
   });
 }

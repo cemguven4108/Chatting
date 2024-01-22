@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:chatting_app/models/user_model.dart';
-import 'package:chatting_app/repository/auth_repository.dart';
-import 'package:chatting_app/service/storage_service.dart';
-import 'package:chatting_app/service/user_service.dart';
+import 'package:chatting_app/api/repository/auth_repository.dart';
+import 'package:chatting_app/api/service/storage_service.dart';
+import 'package:chatting_app/api/service/user_service.dart';
 
 class AuthService {
   final AuthRepository _authRepository;
