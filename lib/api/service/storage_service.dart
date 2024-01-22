@@ -14,4 +14,8 @@ class StorageService {
   Future<void> delete(String url) async {
     _storageRepository.delete(url);
   }
+
+  Future<String> getImage(String imageUrl) {
+    return _storageRepository.getDownloadUrl(imageUrl);
+  }
 }

@@ -20,4 +20,8 @@ class StorageRepository {
   Future<void> delete(String url) async {
     await _firebaseStorage.ref(url).delete();
   }
+
+  Future<String> getDownloadUrl(String imageUrl) async {
+    return await _firebaseStorage.ref(imageUrl).getDownloadURL();
+  }
 }

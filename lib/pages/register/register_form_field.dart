@@ -1,15 +1,17 @@
 import 'package:chatting_app/utils/theme/theme_generator.dart';
 import 'package:flutter/material.dart';
 
-class LoginFormField extends StatelessWidget {
-  const LoginFormField({
+class RegisterFormField extends StatelessWidget {
+  const RegisterFormField({
     Key? key,
     required this.hintText,
+    this.isEmail = false,
     this.isPassword = false,
     this.controller,
   }) : super(key: key);
 
   final String hintText;
+  final bool isEmail;
   final bool isPassword;
   final TextEditingController? controller;
 
@@ -26,7 +28,7 @@ class LoginFormField extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return "Cannot be empty";
           }
-          if (!isPassword && !value.contains("@")) {
+          if (isEmail && !value.contains("@")) {
             return "Wrong Email Format";
           }
           if (isPassword && value.length < 8) {
@@ -34,7 +36,7 @@ class LoginFormField extends StatelessWidget {
           }
           return null;
         },
-        keyboardType: !isPassword
+        keyboardType: isEmail
             ? TextInputType.emailAddress
             : TextInputType.visiblePassword,
         obscureText: isPassword,
