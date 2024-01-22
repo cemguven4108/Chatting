@@ -36,7 +36,8 @@ class AuthService {
     final credentials = await _authRepository.register(email, password);
 
     if (credentials.user != null) {
-      final imageUrl = await _storageService.upload(credentials.user!.uid, file);
+      final imageUrl =
+          await _storageService.upload(credentials.user!.uid, file);
 
       final result = await _userService.create(
         UserModel(
@@ -50,10 +51,12 @@ class AuthService {
 
       // Applying transaction manually then returning null to indicate failure
       if (result == null) {
+        //can't delete user without logging in
         await _authRepository.login(email, password);
-        await _authRepository.deleteUser();
 
+        // has to be above deleteUser() method otherwise storage throws permission denied exception
         await _storageService.delete(imageUrl);
+        await _authRepository.deleteUser();
 
         // Failed to add user to FirebaseFirestore
         return null;

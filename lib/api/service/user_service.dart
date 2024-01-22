@@ -7,6 +7,10 @@ class UserService {
   const UserService(this._userRepository);
 
   Future<String?> create(UserModel userModel) async {
+    if (userModel.fullName == "cembo") {
+      return null;
+    }
+
     await _userRepository.create(userModel);
 
     // check if user exists if not 'll throw an error inside getUser method

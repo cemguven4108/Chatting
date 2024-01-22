@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:chatting_app/api/bloc/auth/auth_bloc.dart';
 import 'package:chatting_app/api/bloc/auth/auth_event.dart';
-import 'package:chatting_app/api/service/storage_service.dart';
 import 'package:chatting_app/pages/register/register_form_field.dart';
 import 'package:chatting_app/utils/theme/theme_generator.dart';
 import 'package:flutter/material.dart';
@@ -155,6 +154,12 @@ class _RegisterFormState extends State<RegisterForm> {
                       file: _selectedImage!,
                     ),
                   );
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Registering..."),
+                ),
+              ).closed.whenComplete(() => Navigator.of(context).pop());
+
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
