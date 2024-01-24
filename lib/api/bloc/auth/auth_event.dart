@@ -2,6 +2,8 @@ import 'dart:io';
 
 abstract class AuthEvent {}
 
+class AuthEventInitialize extends AuthEvent {}
+
 class LoginEvent extends AuthEvent {
   final String email;
   final String password;

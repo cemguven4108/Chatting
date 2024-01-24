@@ -1,15 +1,10 @@
 import 'package:chatting_app/api/bloc/auth/auth_bloc.dart';
 import 'package:chatting_app/api/bloc/auth/auth_state.dart';
-import 'package:chatting_app/configuration/firebase_configuration.dart';
+import 'package:chatting_app/configuration/apI_configuration.dart';
 import 'package:chatting_app/firebase_options.dart';
+import 'package:chatting_app/loading/loading_page.dart';
 import 'package:chatting_app/pages/home/home_page.dart';
 import 'package:chatting_app/pages/login/login_page.dart';
-import 'package:chatting_app/api/repository/auth_repository.dart';
-import 'package:chatting_app/api/repository/storage_repository.dart';
-import 'package:chatting_app/api/repository/user_repository.dart';
-import 'package:chatting_app/api/service/auth_service.dart';
-import 'package:chatting_app/api/service/storage_service.dart';
-import 'package:chatting_app/api/service/user_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,32 +18,34 @@ void main() async {
 
   runApp(
     MultiBlocProvider(
-      providers: providers,
+      providers: [
+        userBlocProvider,
+        usersBlocProvider,
+        authBlocProvider,
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: BlocBuilder<AuthBloc, AuthState>(
+        home: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state.isLoading) {
+              LoadingPage.instance().show(
+                context: context,
+                text: "Loading...",
+              );
+            } else {
+              LoadingPage.instance().hide();
+            }
+          },
           builder: (context, state) {
-            if (state is AuthLoggedIn) return const HomePage();
-            return const LoginPage();
+            if (state is AuthStateLoggedOut) {
+              return const LoginPage();
+            } else if (state is AuthStateLoggedIn) {
+              return const HomePage();
+            }
+            return Container();
           },
         ),
       ),
     ),
   );
 }
-
-final providers = [
-  BlocProvider(
-    create: (context) => AuthBloc(
-      AuthService(
-        AuthRepository(firebaseAuth),
-        UserService(
-          UserRepository(usersCollection),
-        ),
-        StorageService(
-          StorageRepository(firebaseStorage),
-        ),
-      ),
-    ),
-  ),
-];

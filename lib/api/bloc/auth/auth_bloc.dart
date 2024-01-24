@@ -6,26 +6,36 @@ import 'package:chatting_app/api/service/auth_service.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService _authService;
 
-  AuthBloc(this._authService) : super(AuthInitial()) {
+  AuthBloc(this._authService) : super(AuthStateLoggedOut()) {
     on(_onLogin);
     on(_onRegister);
     on(_onLogout);
+    on(_onInitialize);
+  }
+
+  void _onInitialize(AuthEventInitialize event, Emitter<AuthState> emit) async {
+    final user = _authService.getUser();
+    if (user == null) {
+      emit(AuthStateLoggedOut());
+    } else {
+      emit(AuthStateLoggedIn());
+    }
   }
 
   void _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoggingIn());
+    emit(AuthStateLoggedIn(isLoading: true));
 
     final result = await _authService.login(event.email, event.password);
 
     if (result == null) {
-      emit(AuthError());
+      emit(AuthStateError());
       return;
     }
-    emit(AuthLoggedIn());
+    emit(AuthStateLoggedIn());
   }
 
   void _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
-    emit(AuthRegistering());
+    emit(AuthRegistered(isLoading: true));
 
     final result = await _authService.register(
       event.email,
@@ -35,19 +45,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     if (result == null) {
-      emit(AuthError());
+      emit(AuthStateError());
       return;
     }
-    emit(AuthSuccess());
+    emit(AuthStateSuccess());
   }
 
   void _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoggingOut());
+    emit(AuthStateLoggedOut(isLoading: true));
 
     if (!_authService.logout()) {
-      emit(AuthError());
+      emit(AuthStateError());
       return;
     }
-    emit(AuthSuccess());
+    emit(AuthStateLoggedOut());
   }
 }

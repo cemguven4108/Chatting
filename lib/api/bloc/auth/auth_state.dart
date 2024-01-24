@@ -1,16 +1,37 @@
+abstract class AuthState {
+  final bool isLoading;
 
-abstract class AuthState {}
+  AuthState({
+    required this.isLoading,
+  });
+}
 
-class AuthInitial extends AuthState {}
+class AuthStateLoggedIn extends AuthState {
+  AuthStateLoggedIn({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
 
-class AuthLoggingIn extends AuthState {}
+class AuthStateLoggedOut extends AuthState {
+  AuthStateLoggedOut({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
 
-class AuthLoggedIn extends AuthState {}
+class AuthRegistered extends AuthState {
+  AuthRegistered({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
 
-class AuthLoggingOut extends AuthState {}
+class AuthStateError extends AuthState {
+  AuthStateError({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
 
-class AuthRegistering extends AuthState {}
-
-class AuthError extends AuthState {}
-
-class AuthSuccess extends AuthState {}
+class AuthStateSuccess extends AuthState {
+  AuthStateSuccess({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}

@@ -4,6 +4,7 @@ import 'package:chatting_app/models/user_model.dart';
 import 'package:chatting_app/api/repository/auth_repository.dart';
 import 'package:chatting_app/api/service/storage_service.dart';
 import 'package:chatting_app/api/service/user_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final AuthRepository _authRepository;
@@ -72,5 +73,9 @@ class AuthService {
 
   void delete() {
     _authRepository.deleteUser();
+  }
+
+  User? getUser() {
+    return _authRepository.getUser();
   }
 }
