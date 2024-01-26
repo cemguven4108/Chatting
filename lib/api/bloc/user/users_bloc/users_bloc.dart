@@ -1,34 +1,34 @@
-import 'dart:async';
-
 import 'package:chatting_app/api/bloc/user/users_bloc/users_event.dart';
 import 'package:chatting_app/api/bloc/user/users_bloc/users_state.dart';
+import 'package:chatting_app/api/service/auth_service.dart';
 import 'package:chatting_app/api/service/user_service.dart';
-import 'package:chatting_app/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final UserService _userService;
+  final AuthService _authService;
 
   UsersBloc(
     this._userService,
+    this._authService,
   ) : super(const UsersStateInitialize()) {
-    on<UsersEventWatchStream>((event, emit) => _watchStream(event, emit));
-    on<UsersEventCloseStream>((event, emit) => _stopStream(event, emit));
+    on<UsersEventOpenStream>((event, emit) => _watchStream(event, emit));
   }
 
-  final _streamController = StreamController<List<UserModel>>();
+  void _watchStream(
+      UsersEventOpenStream event, Emitter<UsersState> emit) async {
+    emit(const UsersStateOpenedStream(users: [], isLoading: true));
 
-  void _watchStream(UsersEventWatchStream event, Emitter<UsersState> emit) async {
-    final userStream = await _userService.getStream();
+    final usersStream = await _userService.getStream();
+    final user = await _authService.getUser();
 
-    await _streamController.addStream(userStream);
-
-    await userStream.forEach((users) {
-      emit(UsersStateWatchingStream(users: users));
+    await emit.forEach(usersStream, onData: (users) {
+      if (user != null) {
+        return UsersStateOpenedStream(
+          users: users.where((element) => element.id != user.uid).toList(),
+        );
+      }
+      return UsersStateOpenedStream(users: users);
     });
-  }
-
-  void _stopStream(UsersEventCloseStream event, Emitter<UsersState> emit) async {
-    await _streamController.close();
   }
 }

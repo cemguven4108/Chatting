@@ -12,7 +12,7 @@ class AuthRepository {
     );
   }
 
-  void logout() async {
+  Future<void> logout() async {
     await _firebaseAuth.signOut();
   }
 
@@ -27,7 +27,7 @@ class AuthRepository {
     await _firebaseAuth.currentUser!.delete();
   }
 
-  User? getUser() {
+  Future<User?> getUser() async {
     return _firebaseAuth.currentUser;
   }
 }

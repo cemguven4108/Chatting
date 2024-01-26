@@ -1,32 +1,24 @@
+
+import 'package:chatting_app/api/repository/base_repository.dart';
+import 'package:chatting_app/constants/collection_names.dart';
 import 'package:chatting_app/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserRepository<T extends CollectionReference<UserModel>> {
-  final T _collection;
+class UserRepository extends BaseRepository<UserModel> {
+  final CollectionReference<UserModel> _collection;
 
-  const UserRepository(this._collection);
+  UserRepository._privateConstructor(this._collection) : super(_collection);
 
-  Future<void> create(UserModel userModel) async {
-    _collection.doc(userModel.id).set(userModel);
-  }
+  static final UserRepository _instance = UserRepository._privateConstructor(
+      FirebaseFirestore.instance
+          .collection(Collections.USERS)
+          .withConverter<UserModel>(
+            fromFirestore: (snapshot, _) =>
+                UserModel.fromJson(snapshot.data()!),
+            toFirestore: (model, options) => model.toJson(),
+          ));
 
-  Future<void> update(String id, Map<String, dynamic> data) async {
-    _collection.doc(id).update(data);
-  }
-
-  Future<void> delete(String id) async {
-    _collection.doc(id).delete();
-  }
-
-  Future<DocumentSnapshot<UserModel>> get(String id) async {
-    return _collection.doc(id).get();
-  }
-
-  Future<QuerySnapshot<UserModel>> getAll() async {
-    return _collection.get();
-  }
-
-  Future<Stream<QuerySnapshot<UserModel>>> getStream() async {
-    return _collection.snapshots();
+  factory UserRepository() {
+    return _instance;
   }
 }

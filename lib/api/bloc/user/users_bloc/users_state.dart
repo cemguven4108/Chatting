@@ -1,26 +1,36 @@
 import 'package:chatting_app/models/user_model.dart';
-import 'package:flutter/foundation.dart' show immutable;
 
-@immutable
 abstract class UsersState {
-  const UsersState();
-}
+  final bool isLoading;
 
-@immutable
-class UsersStateInitialize extends UsersState {
-  const UsersStateInitialize();
-}
-
-@immutable
-class UsersStateWatchingStream extends UsersState {
-  final List<UserModel> users;
-
-  const UsersStateWatchingStream({
-    required this.users,
+  const UsersState({
+    required this.isLoading,
   });
 }
 
-@immutable
+class UsersStateInitialize extends UsersState {
+  const UsersStateInitialize({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
+
+class UsersStateOpenedStream extends UsersState {
+  final List<UserModel> users;
+
+  const UsersStateOpenedStream({
+    required this.users,
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
+
+class UsersStateClosedStream extends UsersState {
+  const UsersStateClosedStream({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
+}
+
 class UsersStateError extends UsersState {
-  const UsersStateError();
+  const UsersStateError({
+    bool isLoading = false,
+  }) : super(isLoading: isLoading);
 }

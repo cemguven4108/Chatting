@@ -14,7 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onInitialize(AuthEventInitialize event, Emitter<AuthState> emit) async {
-    final user = _authService.getUser();
+    final user = await _authService.getUser();
     if (user == null) {
       emit(AuthStateLoggedOut());
     } else {
@@ -25,12 +25,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthStateLoggedIn(isLoading: true));
 
-    final result = await _authService.login(event.email, event.password);
+    await _authService.login(event.email, event.password);
 
-    if (result == null) {
-      emit(AuthStateError());
-      return;
-    }
     emit(AuthStateLoggedIn());
   }
 
@@ -54,10 +50,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthStateLoggedOut(isLoading: true));
 
-    if (!_authService.logout()) {
-      emit(AuthStateError());
-      return;
-    }
+    await _authService.logout();
+
     emit(AuthStateLoggedOut());
   }
 }

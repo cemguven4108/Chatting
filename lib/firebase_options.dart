@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -70,15 +73,5 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://chatting-c8b3d-default-rtdb.firebaseio.com',
     storageBucket: 'chatting-c8b3d.appspot.com',
     iosBundleId: 'com.example.chattingApp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCrIo_E67Ny8C47tPUdLwUddhx_jvOcZYk',
-    appId: '1:357493222294:ios:b8afd68a45d94e77674bb7',
-    messagingSenderId: '357493222294',
-    projectId: 'chatting-c8b3d',
-    databaseURL: 'https://chatting-c8b3d-default-rtdb.firebaseio.com',
-    storageBucket: 'chatting-c8b3d.appspot.com',
-    iosBundleId: 'com.example.chattingApp.RunnerTests',
   );
 }

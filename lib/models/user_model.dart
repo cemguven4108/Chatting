@@ -1,7 +1,7 @@
+import 'package:chatting_app/models/entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserModel {
-  final String id;
+class UserModel extends Entity {
   final String fullName;
   final String email;
   final String imageUrl;
@@ -9,13 +9,13 @@ class UserModel {
   final bool isOnline;
 
   UserModel({
-    required this.id,
+    required String id,
     required this.fullName,
     required this.email,
     required this.imageUrl,
     required this.lastActive,
     this.isOnline = false,
-  });
+  }) : super(id: id);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(

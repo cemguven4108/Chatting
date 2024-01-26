@@ -18,18 +18,30 @@ class AuthService {
   );
 
   Future<String?> login(String email, String password) async {
-    return await _authRepository.login(email, password).then((value) {
+    final uid = await _authRepository.login(email, password).then((value) {
       return value.user?.uid;
     });
+
+    if (uid != null) {
+      await _userService.update(uid, {
+        "isOnline": true,
+        "lastActive": DateTime.now(),
+      });
+    }
+
+    return uid;
   }
 
-  bool logout() {
-    _authRepository.logout();
+  Future<void> logout() async {
+    final user = await _authRepository.getUser();
 
-    if (_authRepository.getUser() == null) {
-      return false;
+    if (user != null) {
+      await _userService.update(user.uid, {
+        "isOnline": false,
+        "lastActive": DateTime.now(),
+      });
+      await _authRepository.logout();
     }
-    return true;
   }
 
   Future<String?> register(
@@ -75,7 +87,7 @@ class AuthService {
     _authRepository.deleteUser();
   }
 
-  User? getUser() {
+  Future<User?> getUser() async {
     return _authRepository.getUser();
   }
 }

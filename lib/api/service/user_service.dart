@@ -19,10 +19,10 @@ class UserService {
     return userModel.id;
   }
 
-  void update(String id, String fullName) async {
+  Future<void> update(String id, Map<String, dynamic> data) async {
     await _userRepository.update(
       id,
-      {"fullName": fullName},
+      data,
     );
   }
 
