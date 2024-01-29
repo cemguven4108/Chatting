@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class LoadingPage {
   LoadingPage._sharedInstace();
 
-  static late final LoadingPage _shared = LoadingPage._sharedInstace();
+  static final LoadingPage _shared = LoadingPage._sharedInstace();
   factory LoadingPage.instance() => _shared;
 
   LoadingPageController? controller;

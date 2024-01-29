@@ -11,11 +11,21 @@ class AuthService {
   final UserService _userService;
   final StorageService _storageService;
 
-  const AuthService(
+  const AuthService._privateConstructor(
     this._authRepository,
     this._userService,
     this._storageService,
   );
+
+  static final AuthService _instance = AuthService._privateConstructor(
+    AuthRepository.instance(),
+    UserService.instance(),
+    StorageService.instance(),
+  );
+
+  factory AuthService.instance() {
+    return _instance;
+  }
 
   Future<String?> login(String email, String password) async {
     final uid = await _authRepository.login(email, password).then((value) {

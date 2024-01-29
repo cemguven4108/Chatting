@@ -2,5 +2,5 @@
 
 class Collections {
   static const String USERS = "users";
-    static const String MESSAGES = "messages";
+  static const String MESSAGES = "messages";
 }

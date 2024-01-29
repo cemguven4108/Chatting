@@ -18,7 +18,7 @@ class UserRepository extends BaseRepository<UserModel> {
             toFirestore: (model, options) => model.toJson(),
           ));
 
-  factory UserRepository() {
+  factory UserRepository.instance() {
     return _instance;
   }
 }

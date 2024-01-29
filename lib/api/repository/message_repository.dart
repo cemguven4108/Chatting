@@ -17,7 +17,7 @@ class MessageRepository extends BaseRepository<MessageModel> {
             toFirestore: (model, options) => model.toJson(),
           ));
 
-  factory MessageRepository() {
+  factory MessageRepository.instance() {
     return _instance;
   }
 

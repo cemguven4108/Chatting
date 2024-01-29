@@ -1,5 +1,8 @@
 import 'package:chatting_app/api/bloc/auth/auth_bloc.dart';
 import 'package:chatting_app/api/bloc/auth/auth_event.dart';
+import 'package:chatting_app/api/bloc/user/user_bloc/user_bloc.dart';
+import 'package:chatting_app/api/bloc/user/user_bloc/user_event.dart';
+import 'package:chatting_app/api/bloc/user/user_bloc/user_state.dart';
 import 'package:chatting_app/api/bloc/user/users_bloc/users_bloc.dart';
 import 'package:chatting_app/api/bloc/user/users_bloc/users_event.dart';
 import 'package:chatting_app/api/bloc/user/users_bloc/users_state.dart';

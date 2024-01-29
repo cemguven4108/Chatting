@@ -4,7 +4,15 @@ import 'package:chatting_app/api/repository/user_repository.dart';
 class UserService {
   final UserRepository _userRepository;
 
-  const UserService(this._userRepository);
+  const UserService._privateConstructor(this._userRepository);
+
+  static final UserService _instance = UserService._privateConstructor(
+    UserRepository.instance(),
+  );
+
+  factory UserService.instance() {
+    return _instance;
+  }
 
   Future<String?> create(UserModel userModel) async {
     if (userModel.fullName == "cembo") {
